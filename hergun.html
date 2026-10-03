@@ -1,0 +1,1007 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><link rel="manifest" href="hergun.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Her Gün Beyza"><meta name="theme-color" content="#fbf6fa"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Her Gün Beyza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..700,100;1,9..144,400..600,100&family=Nunito:wght@300;400;600;700;800;900&family=Caveat:wght@500;700&display=swap">
+<style>
+/* Layout: one phone-width column — header, month calendar grid (the collage), actions; sheets slide up from the bottom. */
+:root {
+  --bg: #fbf6fa;
+  --surface: #ffffff;
+  --ink: #3b2f45;
+  --ink-soft: #85758f;
+  --line: #eee2ee;
+  --rose: #f4a9c4;
+  --rose-deep: #d9658f;
+  --lilac: #dccff6;
+  --mint: #c4ead9;
+  --peach: #ffd7bf;
+  --butter: #fff0b8;
+  --sky: #cfe6fb;
+  --on-accent: #ffffff;
+  --shade: rgba(59, 47, 69, .42);
+  --f-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --f-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1d1722; --surface: #29212f; --ink: #f4eaf6; --ink-soft: #b3a2bc; --line: #3a2f42;
+    --rose: #e28fb0; --rose-deep: #f2a3c3; --lilac: #4d4268; --mint: #33584b; --peach: #6a4a3c;
+    --butter: #5f5634; --sky: #314c63; --on-accent: #2a1a24; --shade: rgba(10, 6, 14, .66);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1d1722; --surface: #29212f; --ink: #f4eaf6; --ink-soft: #b3a2bc; --line: #3a2f42;
+  --rose: #e28fb0; --rose-deep: #f2a3c3; --lilac: #4d4268; --mint: #33584b; --peach: #6a4a3c;
+  --butter: #5f5634; --sky: #314c63; --on-accent: #2a1a24; --shade: rgba(10, 6, 14, .66);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); }
+body { font-family: var(--f-body); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 18px 40px; }
+.wrap { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; padding-bottom: 70px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, textarea:focus-visible, .cell:focus-visible { outline: 3px solid var(--rose-deep); outline-offset: 2px; }
+
+/* Header */
+.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand h1 { font-family: var(--f-display); font-variation-settings: "SOFT" 100, "opsz" 120; font-weight: 600; font-size: clamp(30px, 8vw, 40px); line-height: 1; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+.brand h1 em { font-style: italic; color: var(--rose-deep); font-weight: 500; }
+.brand p { margin: 6px 0 0; font-family: var(--f-hand); font-size: 21px; color: var(--ink-soft); line-height: 1.1; }
+.stats { display: flex; gap: 8px; }
+.acc { display: flex; gap: 12px; align-items: center; margin-top: 8px; font-size: 13px; font-weight: 800; }
+.acc a, .acc button { color: var(--ink-soft); text-decoration: none; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+.acc button::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #3fb46b; margin-right: 6px; vertical-align: 1px; }
+.login { display: flex; flex-direction: column; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 18px; }
+.login h3 { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: 24px; }
+.login p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.login input { font: inherit; font-size: 16px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 6px 12px; text-align: center; min-width: 74px; }
+.stat b { display: block; font-family: var(--f-display); font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.stat span { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); font-weight: 700; }
+
+/* Month bar */
+.monthbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.monthbar h2 { margin: 0; font-family: var(--f-display); font-variation-settings: "SOFT" 100; font-weight: 500; font-size: 24px; text-align: center; flex: 1; }
+.monthbar h2 small { display: block; font-family: var(--f-body); font-size: 12px; font-weight: 700; color: var(--ink-soft); letter-spacing: .06em; }
+.nav { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); font-size: 20px; line-height: 1; display: grid; place-items: center; }
+.nav:disabled { opacity: .35; cursor: default; }
+
+/* Calendar collage */
+.cal { background: var(--surface); border-radius: 26px; padding: 12px; border: 1px solid var(--line); }
+.wk, .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.wk { margin-bottom: 6px; }
+.wk span { text-align: center; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.cell { position: relative; aspect-ratio: 1; max-width: 100%; border-radius: 14px; border: 0; padding: 0; overflow: hidden; background: var(--c, var(--lilac)); transition: transform .15s ease; }
+.cell:hover { transform: scale(1.04); }
+.cell img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.cell .n { position: absolute; left: 6px; top: 4px; font-weight: 800; font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--ink); opacity: .75; }
+.cell.has .n { color: #fff; opacity: 1; text-shadow: 0 1px 3px rgba(0,0,0,.45); }
+.cell.today { box-shadow: 0 0 0 3px var(--rose-deep); }
+.cell.today:not(.has)::after { content: "+"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 26px; font-weight: 400; color: var(--rose-deep); }
+.cell.future { opacity: .4; cursor: default; }
+.cell.future:hover { transform: none; }
+.cell.blank { background: transparent; pointer-events: none; }
+.cell .dot { position: absolute; right: 5px; bottom: 5px; width: 7px; height: 7px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px rgba(0,0,0,.2); }
+.monthnote { margin: 10px 4px 2px; font-size: 13px; color: var(--ink-soft); text-align: center; }
+
+/* Tabs */
+.tabs { display: flex; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 4px; gap: 4px; }
+.tabs button { flex: 1; border: 0; background: transparent; border-radius: 12px; padding: 9px 6px; font-weight: 800; font-size: 14px; color: var(--ink-soft); display: flex; align-items: center; justify-content: center; gap: 7px; }
+.tabs button svg { width: 17px; height: 17px; }
+.tabs button[aria-selected="true"] { background: var(--rose); color: var(--ink); }
+
+/* Day feed (main view) */
+.feed { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; margin-inline: -12px; }
+.tile { position: relative; aspect-ratio: 1; max-width: 100%; border: 0; padding: 0; overflow: hidden; background: var(--c, var(--lilac)); border-radius: 4px; }
+.tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile .lab { position: absolute; left: 9%; top: 8%; display: flex; flex-direction: column; align-items: flex-start; line-height: 1; color: var(--ink); pointer-events: none; }
+.tile .wd { font-size: clamp(12px, 3.6vw, 18px); font-weight: 400; letter-spacing: .03em; opacity: .85; }
+.tile .dn { font-weight: 900; font-size: clamp(32px, 10.5vw, 56px); margin-top: .12em; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.tile.has .lab { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.35); }
+.tile.has .wd { opacity: .92; }
+.tile .plus { position: absolute; right: 9%; bottom: 8%; width: 30%; max-width: 46px; aspect-ratio: 1; border-radius: 50%; border: 2px dashed currentColor; color: var(--ink-soft); display: grid; place-items: center; font-size: clamp(16px, 5vw, 24px); line-height: 1; opacity: .7; }
+.tile.today { box-shadow: inset 0 0 0 3px var(--rose-deep); }
+.tile.today .plus { color: var(--rose-deep); opacity: 1; border-style: solid; }
+.tile .memo { position: absolute; left: 9%; bottom: 8%; width: clamp(22px, 7vw, 34px); height: clamp(22px, 7vw, 34px); border-radius: 50%; border: 2px solid rgba(255,255,255,.85); display: grid; place-items: center; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+.tile .memo svg { width: 55%; height: 55%; }
+.feed-empty { grid-column: 1 / -1; text-align: center; color: var(--ink-soft); padding: 30px 12px; }
+.fab { position: fixed; right: 18px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); width: 60px; height: 60px; border-radius: 50%; border: 0; background: var(--rose-deep); color: var(--on-accent); display: grid; place-items: center; box-shadow: 0 8px 22px rgba(217, 101, 143, .38); z-index: 10; }
+.fab svg { width: 26px; height: 26px; }
+
+/* Actions */
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { border: 0; border-radius: 18px; padding: 13px 14px; font-weight: 800; font-size: 14.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn.primary { background: var(--rose-deep); color: var(--on-accent); grid-column: 1 / -1; font-size: 16px; padding: 15px; }
+.btn.mint { background: var(--mint); color: var(--ink); }
+.btn.peach { background: var(--peach); color: var(--ink); }
+.btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+.btn.danger { background: transparent; color: var(--rose-deep); border: 1px solid var(--rose); }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.wide { grid-column: 1 / -1; }
+.previewwrap { max-height: 60vh; overflow-y: auto; border-radius: 18px; border: 1px solid var(--line); }
+.previewwrap .preview { border: 0; border-radius: 0; }
+.vidcanvas { width: auto; height: auto; max-width: 100%; max-height: 46vh; align-self: center; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); }
+.vidbar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.vidbar i { display: block; height: 100%; width: 0; background: var(--rose-deep); }
+.notice { background: var(--butter); border-radius: 16px; padding: 10px 14px; font-size: 13.5px; }
+
+/* Sheet */
+.backdrop { position: fixed; inset: 0; background: var(--shade); z-index: 20; display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--bg); width: 100%; max-width: 560px; max-height: 92%; overflow-y: auto; border-radius: 28px 28px 0 0; padding: 10px 18px calc(22px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 14px; animation: up .22s ease-out; }
+@keyframes up { from { transform: translateY(30px); opacity: .6; } to { transform: none; opacity: 1; } }
+.grab { width: 44px; height: 5px; border-radius: 3px; background: var(--line); align-self: center; }
+.sheet h3 { margin: 0; font-family: var(--f-display); font-variation-settings: "SOFT" 100; font-weight: 500; font-size: 26px; line-height: 1.15; }
+.sheet h3 small { display: block; font-family: var(--f-body); font-size: 13px; color: var(--ink-soft); font-weight: 700; }
+.photo { position: relative; border-radius: 22px; overflow: hidden; background: var(--lilac); aspect-ratio: 1; max-width: 100%; display: grid; place-items: center; }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo .empty { text-align: center; padding: 20px; color: var(--ink); }
+.photo .empty b { display: block; font-family: var(--f-hand); font-size: 30px; font-weight: 700; }
+.photo .busy { position: absolute; inset: 0; background: var(--shade); color: #fff; display: grid; place-items: center; font-weight: 800; }
+.photo.cropping { aspect-ratio: auto; background: transparent; overflow: visible; display: block; border-radius: 0; }
+.cropbox { position: relative; aspect-ratio: 1; max-width: 100%; border-radius: 22px; overflow: hidden; background: #000; touch-action: none; cursor: grab; }
+.cropbox:active { cursor: grabbing; }
+.cropbox canvas { width: 100%; height: 100%; display: block; }
+.cropgrid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(to right, transparent calc(33.33% - .5px), rgba(255,255,255,.45) calc(33.33% - .5px), rgba(255,255,255,.45) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.45) calc(66.66% - .5px), rgba(255,255,255,.45) calc(66.66% + .5px), transparent calc(66.66% + .5px)), linear-gradient(to bottom, transparent calc(33.33% - .5px), rgba(255,255,255,.45) calc(33.33% - .5px), rgba(255,255,255,.45) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.45) calc(66.66% - .5px), rgba(255,255,255,.45) calc(66.66% + .5px), transparent calc(66.66% + .5px)); }
+.croptools { display: flex; align-items: center; gap: 12px; padding-top: 12px; flex-wrap: wrap; }
+.croptools label { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.croptools input[type="range"] { flex: 1 1 120px; min-width: 0; accent-color: var(--rose-deep); }
+.btn.small { padding: 8px 14px; font-size: 13.5px; border-radius: 14px; }
+.crophint { margin: 6px 0 0; font-size: 12.5px; color: var(--ink-soft); text-align: center; }
+.savebusy { text-align: center; font-weight: 800; color: var(--ink-soft); font-size: 14px; }
+label.notel { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+textarea { width: 100%; min-height: 72px; resize: vertical; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 10px 14px; font-family: var(--f-hand); font-size: 22px; line-height: 1.25; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.row .btn { flex: 1 1 140px; }
+.confirm { background: var(--surface); border: 1px solid var(--rose); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.err { color: var(--rose-deep); font-weight: 700; font-size: 13.5px; }
+.seg { display: flex; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px; gap: 4px; }
+.seg button { flex: 1; border: 0; background: transparent; border-radius: 10px; padding: 8px 6px; font-weight: 800; font-size: 13px; color: var(--ink-soft); }
+.seg button[aria-pressed="true"] { background: var(--lilac); color: var(--ink); }
+.preview { border-radius: 18px; border: 1px solid var(--line); width: 100%; display: block; }
+
+/* Film */
+.film { position: fixed; inset: 0; z-index: 30; background: #120d16; color: #fff; display: flex; flex-direction: column; padding: calc(14px + env(safe-area-inset-top, 0px)) 16px calc(18px + env(safe-area-inset-bottom, 0px)); gap: 12px; }
+.film .bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.18); overflow: hidden; }
+.film .bar i { display: block; height: 100%; background: #f4a9c4; width: 0; transition: width .25s linear; }
+.film .stage { flex: 1; min-height: 0; position: relative; border-radius: 22px; overflow: hidden; background: #000; }
+.film .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.film .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 18px 16px; background: linear-gradient(transparent, rgba(0,0,0,.6)); }
+.film .cap b { font-family: var(--f-display); font-variation-settings: "SOFT" 100; font-weight: 500; font-size: 28px; display: block; line-height: 1.1; }
+.film .cap span { font-family: var(--f-hand); font-size: 23px; color: #ffe1ec; }
+.film .ctrls { display: flex; gap: 10px; }
+.film .ctrls button { flex: 1; border: 0; border-radius: 16px; padding: 12px; font-weight: 800; background: rgba(255,255,255,.12); color: #fff; }
+.film .ctrls button.on { background: #f4a9c4; color: #2a1a24; }
+.film .count { font-size: 12.5px; opacity: .75; text-align: center; font-variant-numeric: tabular-nums; }
+
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(22px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-weight: 700; font-size: 14px; z-index: 40; max-width: calc(100% - 32px); text-align: center; }
+@media (prefers-reduced-motion: reduce) { .sheet { animation: none; } .cell { transition: none; } .film .bar i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Her Gün <em>Beyza</em></h1>
+      <p>her güne bir kare</p>
+      <nav class="acc"><a href="./">← Sitemiz</a><button type="button" id="accBtn" hidden></button></nav>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="streak">0</b><span>gün seri</span></div>
+      <div class="stat"><b id="total">0</b><span>kare</span></div>
+    </div>
+  </header>
+
+  <div id="notice" class="notice" hidden></div>
+  <form id="login" class="login" hidden autocomplete="on"><h3>Giriş yap</h3><p>Sitedeki ortak hesabınla giriş yap; ikiniz de buradan günün karesini ekleyebilirsiniz.</p><input id="lgEmail" type="email" autocomplete="username" placeholder="E-posta" required><input id="lgPw" type="password" autocomplete="current-password" placeholder="Şifre" required><button class="btn primary" type="submit" id="lgBtn">Giriş yap</button><p id="lgMsg" role="status"></p></form>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tabDays" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg>
+      Günler
+    </button>
+    <button role="tab" id="tabCal" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      Takvim
+    </button>
+  </div>
+
+  <div class="monthbar">
+    <button class="nav" id="prev" aria-label="Önceki ay">‹</button>
+    <h2 id="mtitle">Ekim<small>2026</small></h2>
+    <button class="nav" id="next" aria-label="Sonraki ay">›</button>
+  </div>
+
+  <section id="daysView" aria-label="Günler">
+    <div class="feed" id="feed"></div>
+  </section>
+
+  <section class="cal" id="calView" aria-label="Takvim" hidden>
+    <div class="wk"><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span></div>
+    <div class="grid" id="grid"></div>
+    <p class="monthnote" id="mnote">Fotoğraflar yükleniyor…</p>
+  </section>
+
+  <div class="actions">
+    <button class="btn mint" id="playFilm">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+      Filmi oynat
+    </button>
+    <button class="btn peach" id="makeCollage">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>
+      Ay kolajı
+    </button>
+    <button class="btn ghost wide" id="backup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+      Yedek indir
+    </button>
+  </div>
+</div>
+
+<button class="fab" id="addToday" aria-label="Bugünün fotoğrafını ekle">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<input type="file" id="picker" accept="image/*" hidden>
+<div id="layer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+(() => {
+  const AYLAR = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+  const GUNLER = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+  const PASTELS = ["--lilac","--mint","--peach","--butter","--sky","--rose","--lilac"];
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const parseKey = k => { const [y,m,d] = k.split("-").map(Number); return new Date(y, m-1, d); };
+  const longDate = k => { const d = parseKey(k); return `${d.getDate()} ${AYLAR[d.getMonth()]} ${d.getFullYear()}`; };
+  const URLS = {};
+  const imgSrc = id => URLS[id] || "";
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayKey = keyOf(today);
+  let view = new Date(today.getFullYear(), today.getMonth(), 1);
+  let days = {};            // key -> {photo, note}
+  let loaded = false;
+  let db = null, assets = null, downloads = null;
+
+  /* ---------- helpers ---------- */
+  function toast(msg) {
+    const t = document.createElement("div");
+    t.className = "toast"; t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2400);
+  }
+  function showNotice(msg) { const n = $("notice"); n.textContent = msg; n.hidden = !msg; }
+
+  /* ---------- stats ---------- */
+  function computeStats() {
+    const keys = Object.keys(days).filter(k => days[k].photo);
+    $("total").textContent = keys.length;
+    let d = new Date(today);
+    if (!days[keyOf(d)]?.photo) d.setDate(d.getDate() - 1);
+    let s = 0;
+    while (days[keyOf(d)]?.photo) { s++; d.setDate(d.getDate() - 1); }
+    $("streak").textContent = s;
+  }
+
+  /* ---------- day feed (main view) ---------- */
+  const KISA = ["PAZ","PZT","SAL","ÇAR","PER","CUM","CMT"];
+  const MEMO_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M7 9h10M7 13h7"/></svg>';
+  let scrolledToToday = false;
+  function renderFeed() {
+    const y = view.getFullYear(), m = view.getMonth();
+    const feed = $("feed"); feed.innerHTML = "";
+    const count = new Date(y, m + 1, 0).getDate();
+    for (let d = 1; d <= count; d++) {
+      const date = new Date(y, m, d);
+      if (date > today) break;
+      const k = keyOf(date), entry = days[k];
+      const t = document.createElement("button");
+      t.className = "tile"; t.id = "tile-" + k;
+      t.style.setProperty("--c", `var(${PASTELS[d % PASTELS.length]})`);
+      if (k === todayKey) t.classList.add("today");
+      if (entry?.photo) {
+        t.classList.add("has");
+        const im = document.createElement("img");
+        im.src = imgSrc(entry.photo); im.alt = ""; im.loading = "lazy";
+        im.onerror = () => { im.remove(); t.classList.remove("has"); };
+        t.append(im);
+        if (entry.note) { const mm = document.createElement("span"); mm.className = "memo"; mm.innerHTML = MEMO_SVG; t.append(mm); }
+      } else {
+        const p = document.createElement("span"); p.className = "plus"; p.textContent = "+"; t.append(p);
+      }
+      const lab = document.createElement("span"); lab.className = "lab";
+      const wd = document.createElement("span"); wd.className = "wd"; wd.textContent = KISA[date.getDay()];
+      const dn = document.createElement("span"); dn.className = "dn"; dn.textContent = d;
+      lab.append(wd, dn); t.append(lab);
+      t.setAttribute("aria-label", `${d} ${AYLAR[m]}${entry?.photo ? ", fotoğraf var" : ", fotoğraf ekle"}`);
+      t.addEventListener("click", () => openDay(k));
+      feed.append(t);
+    }
+    if (!feed.children.length) { const e = document.createElement("p"); e.className = "feed-empty"; e.textContent = "Bu ayda gösterilecek gün yok."; feed.append(e); }
+    if (loaded && !scrolledToToday && y === today.getFullYear() && m === today.getMonth() && Object.keys(days).length) {
+      scrolledToToday = true;
+      const el = $("tile-" + todayKey);
+      if (el && el.getBoundingClientRect().top > window.innerHeight) el.scrollIntoView({ block: "center" });
+    }
+  }
+
+  /* ---------- tabs ---------- */
+  let tab = "days";
+  try { if (localStorage.getItem("hgb-tab") === "cal") tab = "cal"; } catch {}
+  function setTab(t) {
+    tab = t;
+    $("tabDays").setAttribute("aria-selected", t === "days");
+    $("tabCal").setAttribute("aria-selected", t === "cal");
+    $("daysView").hidden = t !== "days";
+    $("calView").hidden = t !== "cal";
+    try { localStorage.setItem("hgb-tab", t); } catch {}
+  }
+  $("tabDays").onclick = () => setTab("days");
+  $("tabCal").onclick = () => setTab("cal");
+  setTab(tab);
+
+  /* ---------- calendar ---------- */
+  function render() {
+    const y = view.getFullYear(), m = view.getMonth();
+    $("mtitle").innerHTML = "";
+    $("mtitle").append(AYLAR[m]);
+    const sm = document.createElement("small"); sm.textContent = y; $("mtitle").append(sm);
+    $("next").disabled = (y > today.getFullYear()) || (y === today.getFullYear() && m >= today.getMonth());
+
+    const grid = $("grid"); grid.innerHTML = "";
+    const first = new Date(y, m, 1);
+    const lead = (first.getDay() + 6) % 7;
+    const count = new Date(y, m + 1, 0).getDate();
+    for (let i = 0; i < lead; i++) { const b = document.createElement("div"); b.className = "cell blank"; grid.append(b); }
+    let filled = 0, past = 0;
+    for (let d = 1; d <= count; d++) {
+      const date = new Date(y, m, d);
+      const k = keyOf(date);
+      const entry = days[k];
+      const btn = document.createElement("button");
+      btn.className = "cell";
+      btn.style.setProperty("--c", `var(${PASTELS[(d + lead) % PASTELS.length]})`);
+      const future = date > today;
+      if (future) { btn.classList.add("future"); btn.disabled = true; } else past++;
+      if (k === todayKey) btn.classList.add("today");
+      if (entry?.photo) {
+        filled++;
+        btn.classList.add("has");
+        const im = document.createElement("img");
+        im.src = imgSrc(entry.photo); im.alt = ""; im.loading = "lazy";
+        im.onerror = () => im.remove();
+        btn.append(im);
+        if (entry.note) { const dot = document.createElement("i"); dot.className = "dot"; btn.append(dot); }
+      }
+      const n = document.createElement("span"); n.className = "n"; n.textContent = d; btn.append(n);
+      btn.setAttribute("aria-label", `${d} ${AYLAR[m]}${entry?.photo ? ", fotoğraf var" : ""}`);
+      if (!future) btn.addEventListener("click", () => openDay(k));
+      grid.append(btn);
+    }
+    const mnote = $("mnote");
+    if (!loaded) mnote.textContent = "Fotoğraflar yükleniyor…";
+    else if (filled === 0 && past > 0) mnote.textContent = "Bu ay henüz kare yok. Bir güne dokun, ilk fotoğrafı ekle.";
+    else mnote.textContent = `Bu ay ${filled} / ${past} gün dolu`;
+    computeStats();
+    renderFeed();
+  }
+
+  $("prev").onclick = () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); };
+  $("next").onclick = () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); };
+  $("addToday").onclick = () => openDay(todayKey);
+
+  /* ---------- sheet ---------- */
+  function openSheet(build) {
+    const layer = $("layer");
+    layer.innerHTML = "";
+    const bd = document.createElement("div"); bd.className = "backdrop";
+    const sh = document.createElement("div"); sh.className = "sheet"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-modal", "true");
+    const g = document.createElement("div"); g.className = "grab"; sh.append(g);
+    bd.append(sh); layer.append(bd);
+    bd.addEventListener("click", e => { if (e.target === bd) close(); });
+    const onKey = e => { if (e.key === "Escape") close(); };
+    document.addEventListener("keydown", onKey);
+    function close() { document.removeEventListener("keydown", onKey); layer.innerHTML = ""; }
+    build(sh, close);
+    return close;
+  }
+
+  /* ---------- image helpers ---------- */
+  async function loadSource(src) {
+    if (src instanceof Blob) {
+      try { return await createImageBitmap(src); } catch {}
+      const url = URL.createObjectURL(src);
+      return await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    }
+    return await new Promise((res, rej) => { const i = new Image(); if (!/^blob:|^data:/.test(src)) i.crossOrigin = "anonymous"; i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  }
+  const dims = im => [im.naturalWidth || im.width, im.naturalHeight || im.height];
+  function downscale(im, max) {
+    const [w, h] = dims(im); const s = Math.min(1, max / Math.max(w, h));
+    const c = document.createElement("canvas"); c.width = Math.round(w * s); c.height = Math.round(h * s);
+    c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); return c;
+  }
+  const toJpeg = (c, q = 0.88) => new Promise(r => c.toBlob(b => r(b), "image/jpeg", q));
+  function rotated(src, rot) {
+    if (!rot) return src;
+    const c = document.createElement("canvas"), sw = src.width, sh = src.height;
+    c.width = rot % 180 ? sh : sw; c.height = rot % 180 ? sw : sh;
+    const x = c.getContext("2d"); x.translate(c.width / 2, c.height / 2); x.rotate(rot * Math.PI / 180); x.drawImage(src, -sw / 2, -sh / 2);
+    return c;
+  }
+
+  /* ---------- cropper: square frame, drag to move, pinch or slider to zoom, rotate ---------- */
+  function makeCropper(host, base, init) {
+    const st = { rot: init?.rot || 0, zoom: init?.zoom || 1, fx: init?.fx ?? .5, fy: init?.fy ?? .5 };
+    let src = rotated(base, st.rot);
+    const box = document.createElement("div"); box.className = "cropbox";
+    const cv = document.createElement("canvas"); box.append(cv);
+    const gr = document.createElement("div"); gr.className = "cropgrid"; box.append(gr);
+    const tools = document.createElement("div"); tools.className = "croptools";
+    const zl = document.createElement("label"); zl.htmlFor = "zoom-range"; zl.textContent = "Yakınlaştır";
+    const range = document.createElement("input"); range.type = "range"; range.id = "zoom-range"; range.min = "1"; range.max = "4"; range.step = "0.01";
+    const rotBtn = document.createElement("button"); rotBtn.type = "button"; rotBtn.className = "btn ghost small"; rotBtn.textContent = "Döndür ↻";
+    tools.append(zl, range, rotBtn);
+    const hint = document.createElement("p"); hint.className = "crophint"; hint.textContent = "Sürükleyerek kaydır, iki parmakla yakınlaştır";
+    host.append(box, tools, hint);
+    range.value = st.zoom;
+
+    const scaleFor = size => Math.max(size / src.width, size / src.height) * st.zoom;
+    function clamp() {
+      const sc = scaleFor(1);
+      const hw = 0.5 / (src.width * sc), hh = 0.5 / (src.height * sc);
+      st.fx = Math.min(1 - hw, Math.max(hw, st.fx)); st.fy = Math.min(1 - hh, Math.max(hh, st.fy));
+    }
+    function draw(ctx, size) {
+      const sc = scaleFor(size), w = src.width * sc, h = src.height * sc;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(src, size / 2 - st.fx * w, size / 2 - st.fy * h, w, h);
+    }
+    function paint() {
+      const S = box.clientWidth; if (!S) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 3);
+      cv.width = Math.round(S * dpr); cv.height = Math.round(S * dpr);
+      const ctx = cv.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, S, S); draw(ctx, S);
+    }
+    clamp();
+    requestAnimationFrame(paint);
+    try { new ResizeObserver(paint).observe(box); } catch {}
+
+    const pts = new Map(); let lastDist = 0;
+    box.addEventListener("pointerdown", e => { box.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); lastDist = 0; });
+    box.addEventListener("pointermove", e => {
+      if (!pts.has(e.pointerId)) return;
+      const prev = pts.get(e.pointerId); const cur = { x: e.clientX, y: e.clientY }; pts.set(e.pointerId, cur);
+      const S = box.clientWidth;
+      if (pts.size === 1) {
+        const sc = scaleFor(S);
+        st.fx -= (cur.x - prev.x) / (src.width * sc); st.fy -= (cur.y - prev.y) / (src.height * sc);
+      } else if (pts.size === 2) {
+        const [a, b] = [...pts.values()]; const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (lastDist) { st.zoom = Math.min(4, Math.max(1, st.zoom * dist / lastDist)); range.value = st.zoom; }
+        lastDist = dist;
+      }
+      clamp(); paint();
+    });
+    const up = e => { pts.delete(e.pointerId); lastDist = 0; };
+    box.addEventListener("pointerup", up); box.addEventListener("pointercancel", up);
+    box.addEventListener("wheel", e => { e.preventDefault(); st.zoom = Math.min(4, Math.max(1, st.zoom * (e.deltaY < 0 ? 1.08 : 1 / 1.08))); range.value = st.zoom; clamp(); paint(); }, { passive: false });
+    range.addEventListener("input", () => { st.zoom = +range.value; clamp(); paint(); });
+    rotBtn.onclick = () => { st.rot = (st.rot + 90) % 360; src = rotated(base, st.rot); st.fx = .5; st.fy = .5; clamp(); paint(); };
+
+    return {
+      crop: () => ({ rot: st.rot, zoom: +st.zoom.toFixed(3), fx: +st.fx.toFixed(4), fy: +st.fy.toFixed(4) }),
+      output(size) { const c = document.createElement("canvas"); c.width = c.height = size; const x = c.getContext("2d"); x.fillStyle = "#000"; x.fillRect(0, 0, size, size); draw(x, size); return c; },
+      setDisabled(v) { range.disabled = v; rotBtn.disabled = v; box.style.pointerEvents = v ? "none" : ""; }
+    };
+  }
+
+  function openDay(k) {
+    const d = parseKey(k);
+    const entry = days[k] ? { ...days[k] } : { photo: null, orig: null, crop: null, note: "" };
+    let base = null, isNew = false, cropper = null;
+
+    openSheet((sh, close) => {
+      const h = document.createElement("h3");
+      h.textContent = `${d.getDate()} ${AYLAR[d.getMonth()]}`;
+      const sm = document.createElement("small"); sm.textContent = `${GUNLER[d.getDay()]}, ${d.getFullYear()}${k === todayKey ? " · bugün" : ""}`;
+      h.append(sm); sh.append(h);
+
+      const ph = document.createElement("div"); ph.className = "photo"; sh.append(ph);
+      const paintPreview = () => {
+        ph.innerHTML = ""; ph.classList.remove("cropping");
+        if (entry.photo) { const im = document.createElement("img"); im.src = imgSrc(entry.photo); im.alt = `${longDate(k)} fotoğrafı`; ph.append(im); }
+        else { const e = document.createElement("div"); e.className = "empty"; e.innerHTML = "<b>bu güne bir kare</b>Aşağıdan fotoğraf seç"; ph.append(e); }
+      };
+      paintPreview();
+      const setBusy = txt => { let b = ph.querySelector(".busy"); if (!txt) { b?.remove(); return; } if (!b) { b = document.createElement("div"); b.className = "busy"; ph.append(b); } b.textContent = txt; };
+
+      const err = document.createElement("div"); err.className = "err"; err.hidden = true;
+      const showErr = t => { err.hidden = !t; err.textContent = t || ""; };
+
+      const row1 = document.createElement("div"); row1.className = "row"; sh.append(row1);
+      const pick = document.createElement("button"); pick.className = "btn ghost"; pick.textContent = entry.photo ? "Fotoğrafı değiştir" : "Fotoğraf seç";
+      const edit = document.createElement("button"); edit.className = "btn ghost"; edit.textContent = "Kırp / düzenle"; edit.hidden = !entry.photo;
+      row1.append(pick, edit);
+
+      const lab = document.createElement("label"); lab.className = "notel"; lab.htmlFor = "note-input"; lab.textContent = "Küçük not"; sh.append(lab);
+      const ta = document.createElement("textarea"); ta.id = "note-input"; ta.placeholder = "Bugün ne oldu?"; ta.value = entry.note || ""; ta.maxLength = 280; sh.append(ta);
+      sh.append(err);
+
+      const save = document.createElement("button"); save.className = "btn primary"; save.textContent = "Kaydet"; sh.append(save);
+
+      const canWrite = !!(db && assets);
+      if (!canWrite) { pick.disabled = edit.disabled = save.disabled = true; showErr("Bu görünümde kayıt yapılamıyor. Sayfayı kendi hesabınla açtığından emin ol."); }
+
+      const enterCrop = (b, init) => {
+        base = b; ph.innerHTML = ""; ph.classList.add("cropping");
+        cropper = makeCropper(ph, b, init);
+        edit.hidden = true;
+      };
+
+      pick.onclick = () => {
+        const inp = $("picker"); inp.value = "";
+        inp.onchange = async () => {
+          const f = inp.files?.[0]; if (!f) return;
+          showErr(""); setBusy("Açılıyor…");
+          try { const im = await loadSource(f); enterCrop(downscale(im, 2000), null); isNew = true; pick.textContent = "Başka fotoğraf seç"; }
+          catch { setBusy(""); showErr("Bu fotoğraf açılamadı. JPG veya PNG bir fotoğraf dene."); }
+        };
+        inp.click();
+      };
+
+      edit.onclick = async () => {
+        showErr(""); setBusy("Açılıyor…"); edit.disabled = true;
+        try { const im = await loadSource(imgSrc(entry.orig || entry.photo)); enterCrop(downscale(im, 2000), entry.orig ? entry.crop : null); isNew = !entry.orig; }
+        catch { setBusy(""); edit.disabled = false; showErr("Fotoğraf düzenlemek için açılamadı. Tekrar dene."); }
+      };
+
+      save.onclick = async () => {
+        showErr("");
+        const note = ta.value.trim();
+        if (!cropper && !entry.photo) { showErr("Önce bir fotoğraf seç."); return; }
+        save.disabled = pick.disabled = true; cropper?.setDisabled(true);
+        const busyHost = document.createElement("div"); busyHost.className = "savebusy"; busyHost.textContent = "Kaydediliyor…"; save.after(busyHost);
+        const oldPhoto = entry.photo, oldOrig = entry.orig;
+        try {
+          let body;
+          if (cropper) {
+            let orig = entry.orig;
+            if (isNew) orig = (await assets.upload(await toJpeg(base, 0.9), { type: "image/jpeg" })).id;
+            const photo = (await assets.upload(await toJpeg(cropper.output(1440)), { type: "image/jpeg" })).id;
+            body = { photo, orig, crop: cropper.crop(), note, date: k, updatedAt: new Date().toISOString() };
+          } else {
+            body = { photo: entry.photo, orig: entry.orig || null, crop: entry.crop || null, note, date: k, updatedAt: new Date().toISOString() };
+          }
+          await db.collection("days").doc(k).set(body);
+          days[k] = body;
+          if (oldPhoto && oldPhoto !== body.photo) assets.delete(oldPhoto).catch(() => {});
+          if (oldOrig && oldOrig !== body.orig) assets.delete(oldOrig).catch(() => {});
+          render(); close(); toast("Kaydedildi");
+        } catch (e) {
+          busyHost.remove(); save.disabled = pick.disabled = false; cropper?.setDisabled(false);
+          showErr(e?.code === "too_large" ? "Fotoğraf çok büyük. Daha küçük bir tane dene."
+            : e?.code === "unsupported_type" ? "Bu dosya türü desteklenmiyor. JPG veya PNG seç."
+            : e?.code === "quota_or_state" ? "Depolama alanı doldu."
+            : "Kaydedilemedi. Bağlantını kontrol edip tekrar dene.");
+        }
+      };
+
+      if (days[k]?.photo && canWrite) {
+        const del = document.createElement("button"); del.className = "btn danger"; del.textContent = "Bu günü sil";
+        sh.append(del);
+        del.onclick = () => {
+          del.hidden = true;
+          const c = document.createElement("div"); c.className = "confirm";
+          c.innerHTML = "<span>Bu günün fotoğrafı ve notu kalıcı olarak silinecek.</span>";
+          const r = document.createElement("div"); r.className = "row";
+          const no = document.createElement("button"); no.className = "btn ghost"; no.textContent = "Vazgeç";
+          const yes = document.createElement("button"); yes.className = "btn danger"; yes.textContent = "Evet, sil";
+          r.append(no, yes); c.append(r); sh.append(c);
+          no.onclick = () => { c.remove(); del.hidden = false; };
+          yes.onclick = async () => {
+            yes.disabled = true;
+            try {
+              const { photo, orig } = days[k];
+              await db.collection("days").doc(k).delete();
+              delete days[k];
+              if (photo) assets.delete(photo).catch(() => {});
+              if (orig) assets.delete(orig).catch(() => {});
+              render(); close(); toast("Silindi");
+            } catch { yes.disabled = false; toast("Silinemedi, tekrar dene"); }
+          };
+        };
+      }
+    });
+  }
+
+  /* ---------- film ---------- */
+  $("playFilm").onclick = () => {
+    const all = Object.keys(days).filter(k => days[k].photo).sort();
+    if (!all.length) { toast("Film için önce birkaç kare ekle"); return; }
+    const ym = `${view.getFullYear()}-${pad(view.getMonth()+1)}`;
+    let scope = all.some(k => k.startsWith(ym)) ? "month" : "all";
+    let speed = 1000;
+    openSheet((sh, close) => {
+      const h = document.createElement("h3"); h.textContent = "Film modu";
+      const sm = document.createElement("small"); sm.textContent = "Her kare ekranda bir an kalır"; h.append(sm); sh.append(h);
+      const mk = (opts, cur, set) => {
+        const s = document.createElement("div"); s.className = "seg";
+        opts.forEach(([v, label]) => { const b = document.createElement("button"); b.textContent = label; b.setAttribute("aria-pressed", v === cur()); b.onclick = () => { set(v); [...s.children].forEach((x, i) => x.setAttribute("aria-pressed", opts[i][0] === v)); }; s.append(b); });
+        return s;
+      };
+      sh.append(mk([["month", `${AYLAR[view.getMonth()]} ${view.getFullYear()}`], ["all", "Tüm günler"]], () => scope, v => scope = v));
+      sh.append(mk([[1000, "1 saniye"], [600, "Hızlı"], [1600, "Yavaş"]], () => speed, v => speed = v));
+      const go = document.createElement("button"); go.className = "btn primary"; go.textContent = "Başlat";
+      go.onclick = () => {
+        const list = scope === "month" ? all.filter(k => k.startsWith(ym)) : all;
+        if (!list.length) { toast("Bu ayda kare yok"); return; }
+        close(); playFilm(list, speed);
+      };
+      const vid = document.createElement("button"); vid.className = "btn peach"; vid.textContent = "Video olarak indir";
+      vid.onclick = () => {
+        const list = scope === "month" ? all.filter(k => k.startsWith(ym)) : all;
+        if (!list.length) { toast("Bu ayda kare yok"); return; }
+        close(); startVideo(list, speed);
+      };
+      sh.append(go, vid);
+    });
+  };
+
+  function playFilm(list, speed) {
+    list.forEach(k => { const i = new Image(); i.src = imgSrc(days[k].photo); });
+    const f = document.createElement("div"); f.className = "film";
+    f.innerHTML = `<div class="bar"><i></i></div><div class="stage"><img alt=""><div class="cap"><b></b><span></span></div></div><div class="count"></div><div class="ctrls"><button data-a="pause">Duraklat</button><button data-a="restart">Baştan</button><button data-a="close" class="on">Kapat</button></div>`;
+    document.body.append(f);
+    const img = f.querySelector(".stage img"), b = f.querySelector(".cap b"), sp = f.querySelector(".cap span"), bar = f.querySelector(".bar i"), cnt = f.querySelector(".count");
+    let i = 0, timer = null, paused = false;
+    const show = () => {
+      const k = list[i];
+      img.src = imgSrc(days[k].photo);
+      b.textContent = longDate(k);
+      sp.textContent = days[k].note || "";
+      bar.style.width = `${((i + 1) / list.length) * 100}%`;
+      cnt.textContent = `${i + 1} / ${list.length}`;
+    };
+    const tick = () => { if (i < list.length - 1) { i++; show(); } else { stop(); f.querySelector('[data-a="pause"]').textContent = "Bitti"; } };
+    const start = () => { stop(); timer = setInterval(tick, speed); };
+    const stop = () => { if (timer) clearInterval(timer); timer = null; };
+    const onKey = e => { if (e.key === "Escape") end(); };
+    const end = () => { stop(); document.removeEventListener("keydown", onKey); f.remove(); };
+    document.addEventListener("keydown", onKey);
+    f.querySelector(".ctrls").onclick = e => {
+      const a = e.target.closest("button")?.dataset.a; if (!a) return;
+      const pb = f.querySelector('[data-a="pause"]');
+      if (a === "close") end();
+      if (a === "restart") { i = 0; paused = false; pb.textContent = "Duraklat"; show(); start(); }
+      if (a === "pause") {
+        if (pb.textContent === "Bitti") return;
+        paused = !paused; pb.textContent = paused ? "Devam" : "Duraklat"; paused ? stop() : start();
+      }
+    };
+    show(); start();
+  }
+
+  /* ---------- collage: vertical 3-column tiles ---------- */
+  const loadImg = src => new Promise(res => { if (!src) return res(null); const im = new Image(); if (!/^blob:|^data:/.test(src)) im.crossOrigin = "anonymous"; im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+  const LIGHT = { bg: "#fbf6fa", ink: "#3b2f45", soft: "#85758f", rose: "#d9658f", cells: ["#dccff6","#c4ead9","#ffd7bf","#fff0b8","#cfe6fb","#f4a9c4","#dccff6"] };
+  async function loadFonts() {
+    try { await Promise.all(['300 40px "Nunito"','800 40px "Nunito"','900 80px "Nunito"','500 80px "Fraunces"','700 60px "Caveat"'].map(f => document.fonts.load(f))); } catch {}
+  }
+  function coverDraw(x, im, px, py, w, h) {
+    const s = Math.max(w / im.width, h / im.height), dw = im.width * s, dh = im.height * s;
+    x.drawImage(im, px + (w - dw) / 2, py + (h - dh) / 2, dw, dh);
+  }
+  function monthKeys(y, m) {
+    const out = [], count = new Date(y, m + 1, 0).getDate();
+    for (let d = 1; d <= count; d++) { const dt = new Date(y, m, d); if (dt > today) break; out.push(keyOf(dt)); }
+    return out;
+  }
+
+  async function buildCollage() {
+    const y = view.getFullYear(), m = view.getMonth();
+    const keys = monthKeys(y, m);
+    if (!keys.length) return null;
+    const COLS = 3, W = 1080, G = 6, T = Math.floor((W - G * (COLS - 1)) / COLS);
+    const rows = Math.ceil(keys.length / COLS), H = rows * T + (rows - 1) * G;
+    const c = document.createElement("canvas"); c.width = W; c.height = H;
+    const x = c.getContext("2d");
+    x.fillStyle = "#141014"; x.fillRect(0, 0, W, H);
+    await loadFonts();
+    const imgs = await Promise.all(keys.map(k => days[k]?.photo ? loadImg(imgSrc(days[k].photo)) : null));
+    keys.forEach((k, i) => {
+      const dt = parseKey(k), col = i % COLS, row = Math.floor(i / COLS);
+      const px = col * (T + G), py = row * (T + G), im = imgs[i];
+      x.save(); x.beginPath(); x.rect(px, py, T, T); x.clip();
+      if (im) {
+        coverDraw(x, im, px, py, T, T);
+        const g = x.createLinearGradient(0, py, 0, py + T * 0.5);
+        g.addColorStop(0, "rgba(0,0,0,.22)"); g.addColorStop(1, "rgba(0,0,0,0)");
+        x.fillStyle = g; x.fillRect(px, py, T, T * 0.5);
+        x.fillStyle = "#fff"; x.shadowColor = "rgba(0,0,0,.35)"; x.shadowBlur = 8;
+      } else {
+        x.fillStyle = LIGHT.cells[dt.getDate() % 7]; x.fillRect(px, py, T, T);
+        x.fillStyle = LIGHT.ink;
+      }
+      x.font = `300 ${Math.round(T * 0.095)}px "Nunito", sans-serif`;
+      x.fillText(KISA[dt.getDay()], px + T * 0.085, py + T * 0.16);
+      x.font = `900 ${Math.round(T * 0.26)}px "Nunito", sans-serif`;
+      x.fillText(String(dt.getDate()), px + T * 0.075, py + T * 0.41);
+      x.restore();
+    });
+    return await new Promise(r => c.toBlob(b => r(b), "image/jpeg", 0.9));
+  }
+
+  const asciiMonth = m => AYLAR[m].toLowerCase().replace(/ş/g,"s").replace(/ı/g,"i").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c");
+
+  async function offerSave(filename, blob, okMsg) {
+    if (!downloads) { toast("İndirme bu görünümde kullanılamıyor"); return; }
+    try { await downloads.save({ filename, data: blob }); toast(okMsg || "İndirildi"); }
+    catch (e) { if (e?.code !== "declined") toast(e?.code === "too_large" ? "Dosya çok büyük" : "İndirilemedi, tekrar dene"); }
+  }
+
+  $("makeCollage").onclick = async () => {
+    const btn = $("makeCollage"); btn.disabled = true;
+    let blob = null;
+    try { blob = await buildCollage(); } catch {}
+    btn.disabled = false;
+    if (!blob) { toast("Bu ay için kolaj hazırlanamadı"); return; }
+    const url = URL.createObjectURL(blob);
+    const name = `beyza-${asciiMonth(view.getMonth())}-${view.getFullYear()}.jpg`;
+    openSheet((sh, close) => {
+      const h = document.createElement("h3"); h.textContent = `${AYLAR[view.getMonth()]} kolajı`;
+      const sm = document.createElement("small"); sm.textContent = "Dikey, 3 sütun, her gün bir kare"; h.append(sm); sh.append(h);
+      const wrap = document.createElement("div"); wrap.className = "previewwrap";
+      const im = document.createElement("img"); im.className = "preview"; im.src = url; im.alt = "Ay kolajı önizleme"; wrap.append(im); sh.append(wrap);
+      const r = document.createElement("div"); r.className = "row"; sh.append(r);
+      if (downloads) {
+        const dl = document.createElement("button"); dl.className = "btn primary"; dl.textContent = "Kolajı indir";
+        dl.onclick = () => offerSave(name, blob);
+        r.append(dl);
+      } else {
+        const p = document.createElement("p"); p.className = "monthnote"; p.textContent = "Görsele uzun basıp kaydedebilirsin."; sh.append(p);
+      }
+      const cl = document.createElement("button"); cl.className = "btn ghost"; cl.textContent = "Kapat"; cl.onclick = () => { URL.revokeObjectURL(url); close(); }; r.append(cl);
+    });
+  };
+
+  /* ---------- film as video (vertical 1080x1920) ---------- */
+  function pickMime() {
+    if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) return null;
+    for (const t of ["video/mp4;codecs=avc1", "video/mp4", "video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm"]) {
+      try { if (MediaRecorder.isTypeSupported(t)) return t; } catch {}
+    }
+    return null;
+  }
+  function wrapLines(x, text, maxW, maxLines) {
+    const words = text.split(/\s+/), lines = []; let cur = "";
+    for (const w of words) {
+      const t = cur ? cur + " " + w : w;
+      if (x.measureText(t).width <= maxW) cur = t;
+      else { if (cur) lines.push(cur); cur = w; if (lines.length === maxLines) break; }
+    }
+    if (cur && lines.length < maxLines) lines.push(cur);
+    if (lines.length === maxLines && words.join(" ").length > lines.join(" ").length) {
+      let last = lines[maxLines - 1];
+      while (last.length && x.measureText(last + "…").width > maxW) last = last.slice(0, -1);
+      lines[maxLines - 1] = last + "…";
+    }
+    return lines;
+  }
+
+  function startVideo(list, speed) {
+    const mime = pickMime();
+    openSheet((sh, close) => {
+      const h = document.createElement("h3"); h.textContent = "Video hazırlanıyor";
+      const sm = document.createElement("small"); h.append(sm); sh.append(h);
+      if (!mime) { h.textContent = "Video yapılamıyor"; sm.textContent = "Bu tarayıcı video kaydını desteklemiyor. Telefonda Safari ya da Chrome'un güncel sürümünü dene."; return; }
+      sm.textContent = "Ekranı kapatma, uygulamadan çıkma";
+      const c = document.createElement("canvas"); c.width = 1080; c.height = 1920; c.className = "vidcanvas"; sh.append(c);
+      const prog = document.createElement("div"); prog.className = "vidbar"; const fill = document.createElement("i"); prog.append(fill); sh.append(prog);
+      const status = document.createElement("p"); status.className = "monthnote"; status.textContent = "Fotoğraflar hazırlanıyor…"; sh.append(status);
+      const r = document.createElement("div"); r.className = "row"; sh.append(r);
+      const cancel = document.createElement("button"); cancel.className = "btn ghost"; cancel.textContent = "Vazgeç"; r.append(cancel);
+      let aborted = false, lock = null;
+      cancel.onclick = () => { aborted = true; try { lock?.release(); } catch {} close(); };
+
+      (async () => {
+        try { lock = await navigator.wakeLock?.request("screen"); } catch {}
+        await loadFonts();
+        const imgs = await Promise.all(list.map(k => loadImg(imgSrc(days[k].photo))));
+        const items = list.map((k, i) => ({ k, im: imgs[i] })).filter(o => o.im);
+        if (!items.length || aborted) { status.textContent = "Fotoğraflar yüklenemedi."; return; }
+        const x = c.getContext("2d"), W = 1080, H = 1920, S = 920, PX = (W - S) / 2, PY = 440;
+        const rr = (px, py, w, hh, rad) => { x.beginPath(); x.moveTo(px + rad, py); x.arcTo(px + w, py, px + w, py + hh, rad); x.arcTo(px + w, py + hh, px, py + hh, rad); x.arcTo(px, py + hh, px, py, rad); x.arcTo(px, py, px + w, py, rad); x.closePath(); };
+        const frame = i => {
+          const { k, im } = items[i];
+          x.fillStyle = LIGHT.bg; x.fillRect(0, 0, W, H);
+          x.fillStyle = LIGHT.cells[parseKey(k).getDate() % 7]; x.globalAlpha = .55;
+          x.beginPath(); x.arc(W * 0.85, 300, 260, 0, Math.PI * 2); x.fill();
+          x.beginPath(); x.arc(W * 0.12, 1700, 300, 0, Math.PI * 2); x.fill(); x.globalAlpha = 1;
+          x.textAlign = "center"; x.fillStyle = LIGHT.rose; x.font = '700 76px "Caveat", cursive';
+          x.fillText("Her Gün Beyza", W / 2, 300);
+          x.save(); rr(PX, PY, S, S, 44); x.clip(); coverDraw(x, im, PX, PY, S, S); x.restore();
+          x.fillStyle = LIGHT.ink; x.font = '500 84px "Fraunces", Georgia, serif';
+          x.fillText(longDate(k), W / 2, PY + S + 130);
+          const note = days[k]?.note;
+          if (note) {
+            x.fillStyle = LIGHT.soft; x.font = '700 62px "Caveat", cursive';
+            wrapLines(x, note, S, 2).forEach((ln, j) => x.fillText(ln, W / 2, PY + S + 230 + j * 66));
+          }
+          x.fillStyle = LIGHT.soft; x.font = '800 32px "Nunito", sans-serif';
+          x.fillText(`${i + 1} / ${items.length}`, W / 2, H - 110);
+          x.textAlign = "left";
+        };
+        frame(0);
+        const stream = c.captureStream(30);
+        let rec;
+        try { rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 6000000 }); }
+        catch { rec = new MediaRecorder(stream); }
+        const chunks = [];
+        rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+        const stopped = new Promise(res => { rec.onstop = res; });
+        rec.start(250);
+        status.textContent = "Kaydediliyor…";
+        const total = items.length * speed, t0 = performance.now();
+        await new Promise(res => {
+          const loop = () => {
+            if (aborted) return res();
+            const t = performance.now() - t0;
+            frame(Math.min(items.length - 1, Math.floor(t / speed)));
+            fill.style.width = `${Math.min(100, t / total * 100)}%`;
+            status.textContent = `Kaydediliyor… ${Math.min(100, Math.round(t / total * 100))}%`;
+            if (t >= total + 200) return res();
+            requestAnimationFrame(loop);
+          };
+          loop();
+        });
+        rec.stop(); await stopped; stream.getTracks().forEach(tr => tr.stop());
+        try { lock?.release(); } catch {}
+        if (aborted) return;
+        const ext = (rec.mimeType || mime).includes("mp4") ? "mp4" : "webm";
+        const blob = new Blob(chunks, { type: ext === "mp4" ? "video/mp4" : "video/webm" });
+        if (!blob.size) { status.textContent = "Video oluşmadı. Ekran açıkken tekrar dene."; return; }
+        h.textContent = "Video hazır";
+        sm.textContent = `${items.length} gün, ${Math.round(total / 1000)} saniye`;
+        fill.style.width = "100%";
+        status.textContent = ext === "webm" ? "Not: Video WEBM formatında. Instagram için CapCut'tan geçirmen gerekebilir." : "";
+        status.hidden = !status.textContent;
+        r.innerHTML = "";
+        const dl = document.createElement("button"); dl.className = "btn primary"; dl.textContent = "Videoyu indir";
+        const first = list[0], last = list[list.length - 1];
+        dl.onclick = () => offerSave(`her-gun-beyza-${first}_${last}.${ext}`, blob, "Video indirildi");
+        const cl = document.createElement("button"); cl.className = "btn ghost"; cl.textContent = "Kapat"; cl.onclick = close;
+        r.append(dl, cl);
+      })().catch(() => { status.textContent = "Video hazırlanırken bir sorun oldu. Tekrar dene."; });
+    });
+  }
+
+  /* ---------- backup zip ---------- */
+  async function getBlob(id) {
+    try { const res = await fetch(imgSrc(id)); if (res.ok) { const b = await res.blob(); if (b.size) return b; } } catch {}
+    const im = await loadImg(imgSrc(id)); if (!im) return null;
+    const c = document.createElement("canvas"); c.width = im.naturalWidth; c.height = im.naturalHeight;
+    c.getContext("2d").drawImage(im, 0, 0);
+    return await toJpeg(c, 0.92);
+  }
+  $("backup").onclick = () => {
+    const keys = Object.keys(days).filter(k => days[k].photo).sort();
+    if (!keys.length) { toast("Yedeklenecek kare yok"); return; }
+    openSheet((sh, close) => {
+      const h = document.createElement("h3"); h.textContent = "Yedek hazırlanıyor";
+      const sm = document.createElement("small"); sm.textContent = `${keys.length} gün · fotoğraflar, orijinaller ve notlar`; h.append(sm); sh.append(h);
+      const prog = document.createElement("div"); prog.className = "vidbar"; const fill = document.createElement("i"); prog.append(fill); sh.append(prog);
+      const status = document.createElement("p"); status.className = "monthnote"; sh.append(status);
+      const r = document.createElement("div"); r.className = "row"; sh.append(r);
+      const cancel = document.createElement("button"); cancel.className = "btn ghost"; cancel.textContent = "Vazgeç"; r.append(cancel);
+      let aborted = false; cancel.onclick = () => { aborted = true; close(); };
+      (async () => {
+        if (!window.JSZip) { status.textContent = "Zip aracı yüklenemedi. Sayfayı yenileyip tekrar dene."; return; }
+        const zip = new window.JSZip(); const notes = []; let missing = 0;
+        for (let i = 0; i < keys.length; i++) {
+          if (aborted) return;
+          const k = keys[i], e = days[k];
+          status.textContent = `${i + 1} / ${keys.length} · ${longDate(k)}`;
+          const b = await getBlob(e.photo); if (b) zip.file(`kareler/${k}.jpg`, b); else missing++;
+          if (e.orig) { const o = await getBlob(e.orig); if (o) zip.file(`orijinaller/${k}.jpg`, o); }
+          notes.push({ tarih: k, gun: longDate(k), not: e.note || "" });
+          fill.style.width = `${((i + 1) / keys.length) * 90}%`;
+        }
+        zip.file("notlar.json", JSON.stringify(notes, null, 2));
+        zip.file("notlar.txt", notes.map(n => `${n.gun}${n.not ? " — " + n.not : ""}`).join("\n"));
+        status.textContent = "Paketleniyor…";
+        const out = await zip.generateAsync({ type: "blob", compression: "STORE" });
+        if (aborted) return;
+        fill.style.width = "100%";
+        h.textContent = "Yedek hazır";
+        status.textContent = `${(out.size / 1048576).toFixed(1)} MB${missing ? ` · ${missing} fotoğraf alınamadı` : ""}`;
+        r.innerHTML = "";
+        const dl = document.createElement("button"); dl.className = "btn primary"; dl.textContent = "Yedeği indir";
+        dl.onclick = () => offerSave(`her-gun-beyza-yedek-${todayKey}.zip`, out, "Yedek indirildi");
+        const cl = document.createElement("button"); cl.className = "btn ghost"; cl.textContent = "Kapat"; cl.onclick = close;
+        r.append(dl, cl);
+      })().catch(() => { status.textContent = "Yedek hazırlanırken bir sorun oldu. Tekrar dene."; });
+    });
+  };
+
+  /* ---------- boot (Supabase) ---------- */
+  const SBU = "https://llnqzaxdjkapttfvtkvb.supabase.co", SBK = "sb_publishable_xKML_pymAlxqcG8Mp8lLRA_s3cEyBUw";
+  let sb = null, chan = null, me = "";
+  const ok = r => { if (r.error) throw r.error; return r.data; };
+  async function signPaths(paths) {
+    const need = [...new Set(paths.filter(p => p && !URLS[p]))]; if (!need.length) return;
+    for (let i = 0; i < need.length; i += 100) {
+      const d = ok(await sb.storage.from("media").createSignedUrls(need.slice(i, i + 100), 604800));
+      d.forEach(x => { if (x.signedUrl) URLS[x.path] = x.signedUrl; });
+    }
+  }
+  async function reload() {
+    const rows = ok(await sb.from("hgb").select("*"));
+    const next = {};
+    rows.forEach(v => { next[v.day] = { photo: v.photo || null, orig: v.orig || null, crop: v.crop || null, note: v.note || "" }; });
+    await signPaths(Object.values(next).flatMap(e => [e.photo, e.orig]));
+    days = next; loaded = true; render();
+  }
+  let rt = null; const reloadSoon = () => { clearTimeout(rt); rt = setTimeout(() => reload().catch(() => {}), 400); };
+  function shims() {
+    db = { collection: () => ({ doc: k => ({
+      async set(b) { ok(await sb.from("hgb").upsert({ day: k, photo: b.photo, orig: b.orig || null, crop: b.crop || null, note: b.note || null }, { onConflict: "day" })); },
+      async delete() { ok(await sb.from("hgb").delete().eq("day", k)); }
+    }) }) };
+    assets = {
+      async upload(blob, o) {
+        const id = "hgb/" + (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)) + ".jpg";
+        const r = await sb.storage.from("media").upload(id, blob, { contentType: (o && o.type) || "image/jpeg" });
+        if (r.error) throw { code: /size|large/i.test(r.error.message || "") ? "too_large" : "upload" };
+        URLS[id] = URL.createObjectURL(blob); return { id };
+      },
+      async delete(id) { await sb.storage.from("media").remove([id]); }
+    };
+  }
+  downloads = { async save({ filename, data }) {
+    const f = new File([data], filename, { type: data.type || "application/octet-stream" });
+    if (navigator.canShare && navigator.canShare({ files: [f] })) {
+      try { await navigator.share({ files: [f] }); return; } catch (e) { if (e && e.name === "AbortError") throw { code: "declined" }; }
+    }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(data); a.download = filename; document.body.append(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
+  } };
+  async function start(user) {
+    me = (user.email || "").toLowerCase();
+    const mem = ok(await sb.from("members").select("*"));
+    if (!mem.length) { loaded = true; showNotice("Bu hesap üye listesinde yok."); render(); return; }
+    const mine = mem.find(m => m.email.toLowerCase() === me);
+    $("login").hidden = true; $("accBtn").hidden = false; $("accBtn").textContent = (mine ? mine.name : me) + " · çıkış";
+    $("addToday").hidden = false; showNotice("");
+    shims(); await reload();
+    if (!chan) chan = sb.channel("hgb-app").on("postgres_changes", { event: "*", schema: "public", table: "hgb" }, reloadSoon).subscribe();
+  }
+  function showLogin() {
+    loaded = true; render(); $("login").hidden = false; $("addToday").hidden = true; $("accBtn").hidden = true;
+  }
+  $("login").addEventListener("submit", async e => {
+    e.preventDefault(); const msg = $("lgMsg"), btn = $("lgBtn"); btn.disabled = true; msg.textContent = "Giriş yapılıyor…";
+    try { const d = ok(await sb.auth.signInWithPassword({ email: $("lgEmail").value.trim(), password: $("lgPw").value })); msg.textContent = ""; await start(d.user); }
+    catch (err) { msg.textContent = /invalid|credential/i.test((err && err.message) || "") ? "E-posta ya da şifre yanlış." : "Olmadı, bağlantını kontrol edip tekrar dene."; }
+    btn.disabled = false;
+  });
+  $("accBtn").onclick = async () => { if (!confirm("Çıkış yapılsın mı?")) return; await sb.auth.signOut(); location.reload(); };
+  render();
+  (async () => {
+    try {
+      if (window.__SBMOCKCLIENT) sb = window.__SBMOCKCLIENT;
+      else { await new Promise((res, rej) => { const sc = document.createElement("script"); sc.src = "supabase.js"; sc.onload = res; sc.onerror = rej; document.head.append(sc); });
+        sb = window.supabase.createClient(SBU, SBK, { auth: { persistSession: true, storageKey: "ba-sb", autoRefreshToken: true } }); }
+      const s = ok(await sb.auth.getSession());
+      if (s.session) await start(s.session.user); else showLogin();
+    } catch (e) { loaded = true; showNotice("Bağlantı kurulamadı. İnternetini kontrol edip sayfayı yenile."); render(); }
+  })();
+})();
+</script>
+
+</body></html>
